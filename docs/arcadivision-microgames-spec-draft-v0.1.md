@@ -116,9 +116,9 @@ Splitting the roster by how much design ambiguity exists *before* build, not by 
 - Flappy Bird clone
 - Frogger clone
 - Tetris-clone *(rules are fixed; only open question is the reskinned visual style, which is an art task not a design-ambiguity task)*
-- Snake\* — *see per-game spec: `MicroGames/packages/snake/SPEC.md`. Rules are otherwise simple, but the 1P/2P mode, dual controls, asymmetric collision, and death-animation-as-obstacle quirks are specific enough to warrant a dedicated doc rather than leaving them to agent judgment.*
-- Gem-match clone (Bejeweled mechanic)\* — *see per-game spec: `MicroGames/packages/gem-match/SPEC.md`. Fully decision-locked (grid size, special-gem rules, cascade scoring, deadlock/reshuffle handling) — no open items, safe for solo AI build.*
-- Runner clone (Subway Surfers mechanic)\* — *see per-game spec: `MicroGames/packages/runner/SPEC.md`. Fully decision-locked (3-lane layout, obstacle types, chunk-based procedural generation, power-ups, scoring) — treated as a fast first-pass prototype; William reviews the built result and drives any further iteration from there rather than pre-designing further now.*
+- Snake\* — *see per-game spec: `MicroGames/packages/snake/docs/snake-spec.md`. Rules are otherwise simple, but the 1P/2P mode, dual controls, asymmetric collision, and death-animation-as-obstacle quirks are specific enough to warrant a dedicated doc rather than leaving them to agent judgment.*
+- Gem-match clone (Bejeweled mechanic)\* — *see per-game spec: `MicroGames/packages/gem-match-clone/docs/gem-match-spec.md`. Fully decision-locked (grid size, special-gem rules, cascade scoring, deadlock/reshuffle handling) — no open items, safe for solo AI build.*
+- Runner clone (Subway Surfers mechanic)\* — *see per-game spec: `MicroGames/packages/runner-clone/docs/runner-spec.md`. Fully decision-locked (3-lane layout, obstacle types, chunk-based procedural generation, power-ups, scoring) — treated as a fast first-pass prototype; William reviews the built result and drives any further iteration from there rather than pre-designing further now.*
 
 **Category B — needs a human design pass first**
 - Shooter Suite *(level/stage mapping across three source mechanics)*

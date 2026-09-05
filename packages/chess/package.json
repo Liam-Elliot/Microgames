@@ -1,8 +1,8 @@
 {
-  "name": "@arcadivision/connect-four",
+  "name": "@arcadivision/chess",
   "version": "0.1.0",
   "private": true,
-  "description": "Arcadivision MicroGame — connect-four (placeholder working title)",
+  "description": "Arcadivision MicroGame — chess (placeholder working title)",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {

@@ -1,9 +1,9 @@
-# Connect Four
+# Chess
 
-Arcadivision MicroGame — **working title:** `connect-four`.
+Arcadivision MicroGame — **working title:** `chess`.
 
-- **Mechanic:** Column-drop four-in-a-row — mechanic is generic.
-- **IP note:** "Connect Four" name itself is a Hasbro trademark — **confirm before public use**. Final public name TBD.
+- **Mechanic:** Full chess — legal move generation, check/checkmate detection, potential AI opponent.
+- **Special handling:** Separate specialized agent team (spec §5). Scope (AI, difficulty, multiplayer, notation) is an open item.
 - **Status:** Scaffolded (package skeleton only, not playable).
 - **Shell dep:** `@arcadivision/shell` (`file:../../../Shell`).
 
@@ -11,7 +11,7 @@ Arcadivision MicroGame — **working title:** `connect-four`.
 
 | Field | Value |
 |---|---|
-| name | `@arcadivision/connect-four` |
+| name | `@arcadivision/chess` |
 | version | `0.1.0` |
 
-Source entry: `src/index.ts`. Gameplay/framework TBD (spec §6).
+Source entry: `src/index.ts`. Gameplay/framework TBD (spec §6, Category B — needs human design pass).
