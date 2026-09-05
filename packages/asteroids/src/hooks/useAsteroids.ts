@@ -1,15 +1,15 @@
 // React canvas mount + fixed-timestep game loop for Asteroids.
 import { useEffect, useRef } from "react";
-import { SeededRng } from "@arcadivision/shell";
-import { createGame,
+import { seededRng } from "@arcadivision/shell";
+import {
+  createGame,
   update,
   startGame,
   fire,
   setThrust,
   turn,
   type GameState,
-  type Rng,
-} from "../game";
+} from "../game/game";
 import { drawGame, drawOverlay } from "../present/render";
 
 const FIXED_STEP_MS = 1000 / 60; // 60Hz fixed updates
@@ -25,8 +25,8 @@ export function useAsteroids(canvasRef: React.RefObject<HTMLCanvasElement | null
 
     // Seed entropy from boot time only (not gameplay RNG — logic stays seeded/deterministic).
     const seed = (Date.now() & 0x7fffffff) >>> 0;
-    const rng: Rng = new SeededRng(seed);
-    const game = createGame({}, rng);
+    const rng = seededRng(seed);
+    const game = createGame(rng, {});
     gameRef.current = game;
 
     const keys = { left: false, right: false, thrust: false, fire: false };
