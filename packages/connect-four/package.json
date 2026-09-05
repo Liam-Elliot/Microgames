@@ -1,0 +1,18 @@
+{
+  "name": "@arcadivision/connect-four",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Arcadivision MicroGame — connect-four (placeholder working title)",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@arcadivision/shell": "file:../../../Shell"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}
