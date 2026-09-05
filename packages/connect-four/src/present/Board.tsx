@@ -1,7 +1,7 @@
 // Presentational Connect Four board renderer (shell tokens only, no raw hexes).
 import { COLORS } from "@arcadivision/shell";
-import type { GameState, Cell } from "../game/connectFour";
-import { COLS, ROWS } from "../game/connectFour";
+import type { GameState, Cell } from "../game/game";
+import { COLS, ROWS } from "../game/game";
 
 function discColor(cell: Cell): string {
   if (cell === 1) return COLORS.text; // P1 green

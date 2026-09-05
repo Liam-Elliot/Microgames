@@ -1,6 +1,6 @@
 // Canvas presentation layer for Pong. Renders GameState using @arcadivision/shell tokens.
 import { COLORS, ALPHA, FONT } from "@arcadivision/shell";
-import type { GameState } from "../game/pong";
+import type { GameState } from "../game/game";
 
 const PADDLE_W = 12;
 

@@ -1,10 +1,19 @@
 // Core Pong game logic — pure TypeScript, framework-agnostic & decoupled.
 // No React/DOM/shell imports here. Consumed by the presentation layer.
-// RNG is INJECTED (a plain `() => number`), never hardcoded — the composition
-// root supplies a @arcadivision/shell SeededRng.
+// RNG is INJECTED as an object ({ next(); int(); pick() }, style-guide §9),
+// never hardcoded — the composition root supplies a @arcadivision/shell SeededRng.
 
-// rng: () => number — returns a float in [0,1).
-export type Rng = () => number;
+// Structural RNG shape matching @arcadivision/shell's SeededRng.
+export interface RngLike {
+  /** Float in [0, 1) */
+  next(): number;
+  /** Integer in [minInclusive, maxExclusive) */
+  int(minInclusive: number, maxExclusive: number): number;
+  /** Random element */
+  pick<T>(items: readonly T[]): T;
+}
+
+export type Rng = RngLike;
 
 export type Mode = "menu" | "serving" | "playing" | "gameover";
 
@@ -97,8 +106,8 @@ function serve(g: GameState, rng: Rng): void {
   g.ball.x = g.boardW / 2;
   g.ball.y = cy;
   // deterministic-ish random serve direction via seeded rng
-  const dir = rng() < 0.5 ? -1 : 1;
-  const angle = (rng() * 0.6 - 0.3); // radians offset from horizontal
+  const dir = rng.next() < 0.5 ? -1 : 1;
+  const angle = (rng.next() * 0.6 - 0.3); // radians offset from horizontal
   const speed = g.ballSpeed;
   g.ball.vx = Math.cos(angle) * speed * dir;
   g.ball.vy = Math.sin(angle) * speed;

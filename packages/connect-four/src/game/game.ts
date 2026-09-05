@@ -1,7 +1,17 @@
 // Core Connect Four game logic — pure TypeScript, framework-agnostic & decoupled.
-// No React/DOM/shell imports. RNG injected as `() => number` (a Shell SeededRng's next).
+// No React/DOM/shell imports. RNG injected as an object ({ next(); int(); pick() },
+// style-guide §9) — a Shell SeededRng.
 
-export type Rng = () => number;
+export interface RngLike {
+  /** Float in [0, 1) */
+  next(): number;
+  /** Integer in [minInclusive, maxExclusive) */
+  int(minInclusive: number, maxExclusive: number): number;
+  /** Random element */
+  pick<T>(items: readonly T[]): T;
+}
+
+export type Rng = RngLike;
 export type Cell = 0 | 1 | 2; // 0 empty, 1 P1, 2 P2
 export type Mode = "menu" | "playing" | "gameover";
 
@@ -125,7 +135,7 @@ export function chooseAiMove(g: GameState, rng: Rng): number {
     for (const c of available) {
       let score = -Math.abs(c - center) * 0.5;
       // small random tiebreak via rng
-      score += rng();
+      score += rng.next();
       if (score > bestScore) {
         bestScore = score;
         best = c;
@@ -134,7 +144,7 @@ export function chooseAiMove(g: GameState, rng: Rng): number {
     return best;
   }
   // easy: random among available (but never throw a win for the human if we can block)
-  return available[Math.floor(rng() * available.length)];
+  return available[Math.floor(rng.next() * available.length)];
 }
 
 function wouldWin(g: GameState, col: number, player: 1 | 2): boolean {

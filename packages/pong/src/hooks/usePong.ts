@@ -9,18 +9,17 @@ import {
   serveStart,
   type GameState,
   type Input,
-  type Rng,
-} from "../game/pong";
+  type RngLike,
+} from "../game/game";
 import { drawGame, drawOverlay } from "../present/render";
 
 export function usePong(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
   const gameRef = useRef<GameState | null>(null);
   const seedRef = useRef<string>((Date.now() & 0x7fffffff).toString(36)); // bootstrap entropy only (not gameplay RNG)
-  // One persistent seeded RNG instance; `next` is injected into pure game logic.
-  const rngRef = useRef<Rng>(null as unknown as Rng);
+  // One persistent seeded RNG instance injected as an object into pure game logic.
+  const rngRef = useRef<RngLike>(null as unknown as RngLike);
   if (rngRef.current === null) {
-    const instance = new SeededRng(seedRef.current);
-    rngRef.current = () => instance.next();
+    rngRef.current = new SeededRng(seedRef.current);
   }
   const inputRef = useRef<Input>({ leftUp: false, leftDown: false, rightUp: false, rightDown: false });
 

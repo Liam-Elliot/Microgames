@@ -10,8 +10,8 @@ import {
   chooseAiMove,
   advanceTurn,
   type GameState,
-  type Rng,
-} from "../game/connectFour";
+  type RngLike,
+} from "../game/game";
 
 type Action =
   | { type: "start"; versusAi: boolean; difficulty: "easy" | "hard" }
@@ -59,10 +59,10 @@ export interface ConnectFourController {
 
 export function useConnectFour(): ConnectFourController {
   const seedRef = useRef<string>((Date.now() & 0x7fffffff).toString(36));
-  const rngRef = useRef<Rng | null>(null);
+  const rngRef = useRef<RngLike | null>(null);
   if (rngRef.current === null) {
     const instance = new SeededRng(seedRef.current);
-    rngRef.current = () => instance.next();
+    rngRef.current = instance;
   }
   const rng = rngRef.current;
 
