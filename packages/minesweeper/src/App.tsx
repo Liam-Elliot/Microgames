@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { COLORS, FONT, ALPHA, SPACE } from "@arcadivision/shell";
-import { MINE } from "./game";
+import { MINE } from "./game/game";
 import { useMinesweeper } from "./hooks/useMinesweeper";
 
 // Classic Minesweeper uses distinct colors per count; the phosphor palette keeps

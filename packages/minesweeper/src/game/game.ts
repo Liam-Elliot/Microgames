@@ -1,9 +1,18 @@
 // Minesweeper — decoupled game model (no DOM/React/framework dependency).
-// Deterministic (seeded RNG), first-click-safe reveal.
+// Deterministic, first-click-safe reveal. RNG is INJECTED (style-guide §9 — never
+// constructs its own `new SeededRng()` internally).
 
-import { SeededRng, type RngLike } from "./rng.js";
+// Structural RNG shape matching @arcadivision/shell's SeededRng (injectable or mock).
+export interface RngLike {
+  /** Float in [0, 1) */
+  next(): number;
+  /** Integer in [minInclusive, maxExclusive) */
+  int(minInclusive: number, maxExclusive: number): number;
+  /** Random element */
+  pick<T>(items: readonly T[]): T;
+}
 
-export type Rng = RngLike;
+type Rng = RngLike;
 
 function rngInt(rng: Rng, min: number, max: number): number {
   return rng.int(min, max + 1);
@@ -41,16 +50,13 @@ export interface GameState {
   flagsRemaining: number;
   firstRevealDone: boolean;
   rng: Rng;
-  seed: number;
 }
 
 export interface Config {
-  seed: number;
   difficulty: Difficulty;
 }
 
 export const DEFAULT_CONFIG: Config = {
-  seed: 987654,
   difficulty: "beginner",
 };
 
@@ -63,12 +69,11 @@ function inBounds(w: number, h: number, x: number, y: number): boolean {
 }
 
 export function createGame(
+  rng: Rng,
   config: Partial<Config> = {},
-  rngIn?: Rng,
 ): GameState {
   const cfg: Config = { ...DEFAULT_CONFIG, ...config };
   const spec = DIFFICULTIES[cfg.difficulty];
-  const rng = rngIn ?? new SeededRng(cfg.seed);
   const cells: Cell[] = [];
   for (let i = 0; i < spec.width * spec.height; i++) {
     cells.push({ value: 0, revealed: false, flagged: false, exploded: false });
@@ -82,7 +87,6 @@ export function createGame(
     flagsRemaining: spec.mines,
     firstRevealDone: false,
     rng,
-    seed: cfg.seed,
   };
 }
 

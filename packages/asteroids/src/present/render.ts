@@ -5,7 +5,7 @@ import {
   WORLD_WIDTH,
   WORLD_HEIGHT,
   type GameState,
-} from "../game";
+} from "../game/game";
 
 function drawShip(ctx: CanvasRenderingContext2D, g: GameState): void {
   const { pos, angle, invulnerableTicks } = g.ship;

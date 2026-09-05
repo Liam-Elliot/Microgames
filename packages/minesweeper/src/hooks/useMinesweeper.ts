@@ -1,16 +1,16 @@
 // React hook wrapping the decoupled Minesweeper game logic.
 import { useCallback, useRef, useState } from "react";
-import { SeededRng } from "@arcadivision/shell";
-import { createGame, reveal, toggleFlag, chord, type GameState, type Rng } from "../game";
+import { seededRng } from "@arcadivision/shell";
+import { createGame, reveal, toggleFlag, chord, type GameState } from "../game/game";
 
 export function useMinesweeper(seedSeed: number) {
-  const rngRef = useRef<Rng | null>(null);
+  const rngRef = useRef<ReturnType<typeof seededRng> | null>(null);
   if (rngRef.current === null) {
-    rngRef.current = new SeededRng(seedSeed);
+    rngRef.current = seededRng(seedSeed);
   }
   const gameRef = useRef<GameState | null>(null);
   if (gameRef.current === null) {
-    gameRef.current = createGame({ difficulty: "beginner" }, rngRef.current);
+    gameRef.current = createGame(rngRef.current, { difficulty: "beginner" });
   }
   const [, forceUpdate] = useState(0);
   const rerender = useCallback(() => forceUpdate((n) => n + 1), []);

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { COLORS, FONT } from "@arcadivision/shell";
-import { WORLD_WIDTH, WORLD_HEIGHT } from "./game";
+import { WORLD_WIDTH, WORLD_HEIGHT } from "./game/game";
 import { useAsteroids } from "./hooks/useAsteroids";
 
 export function App(): JSX.Element {
