@@ -125,7 +125,29 @@ Terse, wry, second-person flavour. The register carries across every game title 
 - **Tokens:** single palette/token module as source of truth — no raw hexes in components.
 - **Determinism:** no `Math.random` in game logic; **seeded RNG only**; IDs are counters.
 - **Components:** presentational; data filtering done by callers, not inside presentational components.
-- **File structure convention (shared across all 15 packages + Shell):** a single token/palette module (e.g. `src/palette.ts`) as source of truth, UI primitives under `src/ui/`, presentational components kept separate from game logic — so packages share layout, not just look.
+- **Tokens live in Shell, NOT per-game.** Every game imports `COLORS`/`ALPHA`/`FONT`/`SeededRng` from `@arcadivision/shell` (source of truth). No per-game `palette.ts` or `colors.ts` fork.
+
+### 9.1 Canonical game package scaffold (React 18 + Vite + TS + Vitest)
+
+Every `@arcadivision/*` game follows this exact layout — no divergence.
+
+```
+packages/<game>/
+  index.html          → <div id="root"> + <script src="/src/main.tsx">, no inline styles
+  vite.config.ts      → vitest/config + @vitejs/plugin-react + test{jsdom} + server.port
+  tsconfig.json       → extends ../../tsconfig.base.json, jsx react-jsx, noEmit, types ["vitest/globals"], include [src, tests, vite.config.ts]
+  package.json        → scripts: dev/build/preview/typecheck/test; deps react, react-dom, @arcadivision/shell; devDeps types/react, plugin-react, typescript, vite, vitest, jsdom
+  src/main.tsx        → createRoot render <App/>
+  src/App.tsx         → top-level component, wires game logic to present
+  src/game/*.ts       → PURE game logic: state + update + input handlers; zero React/DOM/hex; injected SeededRng
+  src/present/*.tsx   → canvas/SVG renderers, import COLORS/FONT/SPACE from @arcadivision/shell
+  src/hooks/*.ts      → composition root: one persistent SeededRng, reducer/game loop
+  tests/*.test.ts     → vitest (engine logic; presentational optional)
+```
+
+- Entry file is **`main.tsx`** (not `dev.tsx`). Vite config **must** include `@vitejs/plugin-react`.
+- One unique `server.port` per game (pong 5173, connect-four 5174, …).
+- Game logic accepts an **injected RNG** (`RngLike` = `{ next(); int(); pick() }`) — never constructs its own `Math.random` or `new SeededRng()` internally.
 
 ---
 
