@@ -1,9 +1,15 @@
 // Solitaire (Klondike) — decoupled game model (no DOM/React/framework dep).
 // 7 tableau piles, 4 foundations, stock/waste with 3-card deals.
+// RNG is INJECTED (style-guide §9 — never constructs its own SeededRng).
 
-import { SeededRng, type RngLike } from "./rng.js";
+// Structural RNG shape matching @arcadivision/shell's SeededRng (injectable or mock).
+export interface RngLike {
+  next(): number;
+  int(minInclusive: number, maxExclusive: number): number;
+  pick<T>(items: readonly T[]): T;
+}
 
-export type Rng = RngLike;
+type Rng = RngLike;
 
 // Fisher-Yates shuffle (deterministic given an Rng).
 function shuffle<T>(rng: Rng, items: readonly T[]): T[] {
@@ -42,16 +48,9 @@ export interface GameState {
   phase: "playing" | "won";
   moves: number;
   rng: Rng;
-  seed: number;
 }
 
-export interface Config {
-  seed: number;
-}
-
-export const DEFAULT_CONFIG: Config = {
-  seed: 20240905,
-};
+export type Config = Record<string, never>;
 
 function makeDeck(): Card[] {
   const deck: Card[] = [];
@@ -64,11 +63,9 @@ function makeDeck(): Card[] {
 }
 
 export function createGame(
-  config: Partial<Config> = {},
-  rngIn?: Rng,
+  rng: Rng,
+  _config: Partial<Config> = {},
 ): GameState {
-  const cfg: Config = { ...DEFAULT_CONFIG, ...config };
-  const rng = rngIn ?? new SeededRng(cfg.seed);
   const deck = shuffle(rng, makeDeck());
 
   const tableau: Card[][] = [];
@@ -89,7 +86,6 @@ export function createGame(
     phase: "playing",
     moves: 0,
     rng,
-    seed: cfg.seed,
   };
 }
 

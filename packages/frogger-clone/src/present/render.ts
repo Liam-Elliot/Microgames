@@ -1,6 +1,6 @@
 // Canvas presentation layer for Frogger. Renders GameState with shell tokens.
 import { COLORS, ALPHA, FONT } from "@arcadivision/shell";
-import { GRID_WIDTH, GRID_ROWS, type GameState, type Mover } from "../game";
+import { GRID_WIDTH, GRID_ROWS, type GameState, type Mover } from "../game/game";
 
 const CELL = 40; // px per cell
 export const CANVAS_W = GRID_WIDTH * CELL;

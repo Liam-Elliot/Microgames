@@ -1,6 +1,6 @@
 // React hook wrapping the decoupled Solitaire (Klondike) game logic.
 import { useCallback, useRef, useState } from "react";
-import { SeededRng } from "@arcadivision/shell";
+import { seededRng } from "@arcadivision/shell";
 import {
   createGame,
   draw,
@@ -9,8 +9,7 @@ import {
   tableauToTableau,
   tableauToFoundation,
   type GameState,
-  type Rng,
-} from "../game";
+} from "../game/game";
 
 export interface Selection {
   source: "waste" | "tableau" | "foundation";
@@ -19,10 +18,10 @@ export interface Selection {
 }
 
 export function useSolitaire(seedNumber: number) {
-  const rngRef = useRef<Rng | null>(null);
-  if (rngRef.current === null) rngRef.current = new SeededRng(seedNumber);
+  const rngRef = useRef<ReturnType<typeof seededRng> | null>(null);
+  if (rngRef.current === null) rngRef.current = seededRng(seedNumber);
   const gameRef = useRef<GameState | null>(null);
-  if (gameRef.current === null) gameRef.current = createGame({}, rngRef.current);
+  if (gameRef.current === null) gameRef.current = createGame(rngRef.current, {});
 
   const [, forceUpdate] = useState(0);
   const rerender = useCallback(() => forceUpdate((n) => n + 1), []);

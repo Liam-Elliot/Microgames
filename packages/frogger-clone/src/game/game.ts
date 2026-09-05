@@ -1,10 +1,15 @@
 // Frogger clone — decoupled game model (no DOM/React/framework dependency).
-// Lane-crossing: cars on road lanes (move horizontally), logs/turtles on river
-// lanes (ride them), safe zones on edges. Player hops between grid cells.
+// Lane-crossing: cars on road lanes, logs/turtles on river lanes, safe zones on
+// edges. RNG is INJECTED (style-guide §9 — never constructs its own SeededRng).
 
-import { SeededRng, type RngLike } from "./rng.js";
+// Structural RNG shape matching @arcadivision/shell's SeededRng (injectable or mock).
+export interface RngLike {
+  next(): number;
+  int(minInclusive: number, maxExclusive: number): number;
+  pick<T>(items: readonly T[]): T;
+}
 
-export type Rng = RngLike;
+type Rng = RngLike;
 
 function range(rng: Rng, min: number, max: number): number {
   return min + rng.next() * (max - min);
@@ -57,13 +62,11 @@ export interface GameState {
 }
 
 export interface Config {
-  seed: number;
   startingLives: number;
   goalSlotsCount: number;
 }
 
 export const DEFAULT_CONFIG: Config = {
-  seed: 55555,
   startingLives: 3,
   goalSlotsCount: 5,
 };
@@ -97,11 +100,10 @@ function buildLanes(): Lane[] {
 }
 
 export function createGame(
+  rng: Rng,
   config: Partial<Config> = {},
-  rngIn?: Rng,
 ): GameState {
   const cfg: Config = { ...DEFAULT_CONFIG, ...config };
-  const rng = rngIn ?? new SeededRng(cfg.seed);
   const lanes = buildLanes();
   const movers: Mover[] = [];
   for (const lane of lanes) {

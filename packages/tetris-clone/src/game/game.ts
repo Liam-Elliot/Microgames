@@ -1,9 +1,15 @@
 // Tetris clone — decoupled game model (no DOM/React/framework dependency).
 // 7-bag randomization, SRS-style rotation, line clear, hard drop, next/hold.
+// RNG is INJECTED (style-guide §9 — never constructs its own SeededRng).
 
-import { SeededRng, type RngLike } from "./rng.js";
+// Structural RNG shape matching @arcadivision/shell's SeededRng (injectable or mock).
+export interface RngLike {
+  next(): number;
+  int(minInclusive: number, maxExclusive: number): number;
+  pick<T>(items: readonly T[]): T;
+}
 
-export type Rng = RngLike;
+type Rng = RngLike;
 
 // Fisher-Yates shuffle (deterministic given an Rng).
 function shuffle<T>(rng: Rng, items: readonly T[]): T[] {
@@ -48,15 +54,14 @@ export interface GameState {
   rng: Rng;
   tick: number;
   gravityAccum: number;
+  gravityTicks: number;
 }
 
 export interface Config {
-  seed: number;
   gravityTicks: number; // frames per gravity drop at level 1
 }
 
 export const DEFAULT_CONFIG: Config = {
-  seed: 424242,
   gravityTicks: 20,
 };
 
@@ -72,11 +77,10 @@ const SHAPES: Record<PieceType, [number, number][]> = {
 };
 
 export function createGame(
+  rng: Rng,
   config: Partial<Config> = {},
-  rngIn?: Rng,
 ): GameState {
   const cfg: Config = { ...DEFAULT_CONFIG, ...config };
-  const rng = rngIn ?? new SeededRng(cfg.seed);
   const board: (PieceType | null)[][] = [];
   for (let y = 0; y < BOARD_HEIGHT; y++) {
     board.push(new Array(BOARD_WIDTH).fill(null));
@@ -95,6 +99,7 @@ export function createGame(
     rng,
     tick: 0,
     gravityAccum: 0,
+    gravityTicks: cfg.gravityTicks,
   };
   // fill queue with first few pieces
   refillNext(state);
@@ -280,7 +285,7 @@ export function update(state: GameState): void {
   state.tick++;
   const gravity = Math.max(
     1,
-    DEFAULT_CONFIG.gravityTicks - (state.level - 1),
+    state.gravityTicks - (state.level - 1),
   );
   state.gravityAccum++;
   if (state.gravityAccum >= gravity) {

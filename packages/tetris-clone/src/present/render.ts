@@ -7,7 +7,7 @@ import {
   pieceCells,
   type GameState,
   type PieceType,
-} from "../game";
+} from "../game/game";
 
 const CELL = 28;
 export const CANVAS_W = BOARD_WIDTH * CELL + 160; // board + next/hold panel

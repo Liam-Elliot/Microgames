@@ -1,6 +1,6 @@
 // React canvas mount + fixed-timestep game loop for Tetris.
 import { useEffect, useRef } from "react";
-import { SeededRng } from "@arcadivision/shell";
+import { seededRng } from "@arcadivision/shell";
 import {
   createGame,
   update,
@@ -12,8 +12,7 @@ import {
   hardDrop,
   holdPiece,
   type GameState,
-  type Rng,
-} from "../game";
+} from "../game/game";
 import { drawGame, drawOverlay } from "../present/render";
 
 const FIXED_STEP_MS = 1000 / 60;
@@ -28,8 +27,8 @@ export function useTetris(canvasRef: React.RefObject<HTMLCanvasElement | null>) 
     if (!ctx) return;
 
     const seed = (Date.now() & 0x7fffffff) >>> 0;
-    const rng: Rng = new SeededRng(seed);
-    const game = createGame({}, rng);
+    const rng = seededRng(seed);
+    const game = createGame(rng, {});
     gameRef.current = game;
 
     let raf = 0;

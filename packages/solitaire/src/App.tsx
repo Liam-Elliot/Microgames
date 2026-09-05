@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { COLORS, FONT, ALPHA, SPACE } from "@arcadivision/shell";
-import { SUIT_COLOR, type Card, type Suit, type Rank } from "./game";
+import { SUIT_COLOR, type Card, type Suit, type Rank } from "./game/game";
 import { useSolitaire } from "./hooks/useSolitaire";
 
 const RANK_LABEL: Record<Rank, string> = {
