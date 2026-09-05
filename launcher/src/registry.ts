@@ -20,6 +20,8 @@ import * as frogger from "@arcadivision/frogger-clone";
 import * as tetris from "@arcadivision/tetris-clone";
 import * as minesweeper from "@arcadivision/minesweeper";
 import * as solitaire from "@arcadivision/solitaire";
+import * as bubblePop from "@arcadivision/bubble-pop";
+import * as flappy from "@arcadivision/flappy-bird-clone";
 
 export interface GameEntry {
   readonly id: string;
@@ -51,9 +53,13 @@ export const GAMES: readonly GameEntry[] = [
   entry(tetris, "TETRIS"),
   entry(minesweeper, "MINESWEEPER"),
   entry(solitaire, "SOLITAIRE"),
-  // stubs — slot in as their packages export Mount
-  { id: "bubble-pop", label: "BUBBLE POP", Mount: null },
-  { id: "flappy-bird-clone", label: "FLAPPY BIRD", Mount: null },
+  entry(bubblePop, "BUBBLE POP"),
+  entry(flappy, "FLAPPY BIRD"),
+  // Category B — stubs (awaiting human design pass, spec §6)
+  { id: "shooter-suite", label: "SHOOTER SUITE", Mount: null },
+  { id: "chess", label: "CHESS", Mount: null },
+  { id: "maze-chase-clone", label: "MAZE CHASE", Mount: null },
+  { id: "bomber-clone", label: "BOMBER", Mount: null },
 ];
 
 export const PLAYABLE = GAMES.filter((g) => g.Mount !== null).length;
