@@ -5,12 +5,14 @@
   "description": "Arcadivision MicroGames — collection of small, self-contained arcade-style games that import @arcadivision/shell",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "launcher"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
+    "dev": "npm run dev -w launcher",
     "build": "npm run build --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
     "typescript": "^5.5.0"

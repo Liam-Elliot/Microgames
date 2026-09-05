@@ -7,3 +7,6 @@ export * from "./rng.js";
 
 export const title = "frogger-clone";
 export const status = "playable"; // shell-integrated, typecheck + build clean
+
+// canonical registration surface (launcher contract, style-guide §9.2)
+export { App as Mount } from "./App";

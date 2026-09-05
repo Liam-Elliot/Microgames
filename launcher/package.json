@@ -1,0 +1,39 @@
+{
+  "name": "@arcadivision/launcher",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Arcadivision MicroGames unified launcher — BootSplash → game menu → mounts any game in GameShell",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@arcadivision/asteroids": "file:../asteroids",
+    "@arcadivision/connect-four": "file:../connect-four",
+    "@arcadivision/frogger-clone": "file:../frogger-clone",
+    "@arcadivision/gem-match-clone": "file:../gem-match-clone",
+    "@arcadivision/minesweeper": "file:../minesweeper",
+    "@arcadivision/pong": "file:../pong",
+    "@arcadivision/runner-clone": "file:../runner-clone",
+    "@arcadivision/shell": "file:../../Shell",
+    "@arcadivision/snake": "file:../snake",
+    "@arcadivision/solitaire": "file:../solitaire",
+    "@arcadivision/tetris-clone": "file:../tetris-clone",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.5.0",
+    "vite": "^6.0.3",
+    "vitest": "^3.0.0"
+  }
+}
