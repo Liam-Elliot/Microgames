@@ -102,7 +102,35 @@ Full chess scope (does it need an AI opponent, difficulty levels, multiplayer, m
 
 ---
 
-## 6. Open items — not yet decided (deliberately deferred)
+## 6. Build categorization — human design pass required vs. AI can build solo
+
+Splitting the roster by how much design ambiguity exists *before* build, not by difficulty of implementation. Category B items need a human decision pass (a short spec doc, at minimum) before being handed to the agent swarm; Category A items are unambiguous enough that agents can be set loose with minimal oversight.
+
+**Category A — self-contained, minimal oversight needed**
+- Pong
+- Asteroids
+- Minesweeper
+- Solitaire
+- Connect Four
+- Bubble Pop
+- Flappy Bird clone
+- Frogger clone
+- Tetris-clone *(rules are fixed; only open question is the reskinned visual style, which is an art task not a design-ambiguity task)*
+- Snake\* — *see per-game spec: `MicroGames/packages/snake/SPEC.md`. Rules are otherwise simple, but the 1P/2P mode, dual controls, asymmetric collision, and death-animation-as-obstacle quirks are specific enough to warrant a dedicated doc rather than leaving them to agent judgment.*
+- Gem-match clone (Bejeweled mechanic)\* — *see per-game spec: `MicroGames/packages/gem-match/SPEC.md`. Fully decision-locked (grid size, special-gem rules, cascade scoring, deadlock/reshuffle handling) — no open items, safe for solo AI build.*
+- Runner clone (Subway Surfers mechanic)\* — *see per-game spec: `MicroGames/packages/runner/SPEC.md`. Fully decision-locked (3-lane layout, obstacle types, chunk-based procedural generation, power-ups, scoring) — treated as a fast first-pass prototype; William reviews the built result and drives any further iteration from there rather than pre-designing further now.*
+
+**Category B — needs a human design pass first**
+- Shooter Suite *(level/stage mapping across three source mechanics)*
+- Chess *(separate specialized agent team — see Section 5)*
+- Maze-chase clone (Pac-Man mechanic) *(enemy/ghost AI behavior, level layout)*
+- Bomber clone (Bomberman mechanic) *(map/level design, enemy behavior, power-up balance)*
+
+Per-game spec docs (like Snake's) should be added to this section's list as they're written, with the same asterisk convention pointing to their file.
+
+---
+
+## 7. Open items — not yet decided (deliberately deferred)
 
 These are known gaps, called out explicitly so they aren't mistaken for decisions:
 
