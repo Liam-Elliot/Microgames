@@ -148,6 +148,7 @@ packages/<game>/
 - Entry file is **`main.tsx`** (not `dev.tsx`). Vite config **must** include `@vitejs/plugin-react`.
 - One unique `server.port` per game (pong 5173, connect-four 5174, …).
 - Game logic accepts an **injected RNG** (`RngLike` = `{ next(); int(); pick() }`) — never constructs its own `Math.random` or `new SeededRng()` internally.
+- **Testing is mandatory (owner rule):** every game's engine logic must have vitest coverage in `tests/*.test.ts` — core mechanics, state transitions, win/lose/collision/scoring. A game is not "done" until `vitest run` passes and `tsc --noEmit` is clean. Deterministic tests use a fixed-seed or mock RNG.
 
 ---
 
